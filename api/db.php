@@ -13,6 +13,6 @@ mysql_select_db($dbInfo['dbname']);
 
 mysql_query("set charset 'utf-8'");
 mysql_query("set character set 'utf8'");
-echo "<meta charset='utf8'>";
+//echo "<meta charset='utf8'>";
 
 ?>
