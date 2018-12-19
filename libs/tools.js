@@ -204,6 +204,7 @@ var tools = {
 			url = url.substr(0,url.length-1);
 		}
 		//2、打开连接
+		//第三个参数代表是否异步，默认为true
 		ajax.open("GET", url);
 
 		//3、发送请求
@@ -217,6 +218,117 @@ var tools = {
 		}
 
 		
+
+	},
+
+	/*
+	* 封装ajax的post请求方法
+	* @param url string 请求路径
+	* @param params Object 请求携带的参数
+	* @param cb  Function  请求成功之后的回调函数
+	* @param isJson boolean true代表是json 默认值就是true false就是普通字符串
+	*/
+	ajaxPost: function(url, params, cb, isJson=true){
+		//判断是否有参数
+		var str = "";
+		if(typeof params === "function"){
+			//没有参数要发送
+			str = null;
+			
+			//参数都往前移动一位，isJson默认值为true
+			if(cb === undefined){
+				//cb没有传
+				isJson = true;
+			}else{
+				//传了cb
+			 	isJson = cb;
+			}
+			cb = params;
+		}else{
+			for(let key in params){
+				str += key+"="+params[key]+"&";
+			}
+			str = str.slice(0, -1);
+		
+		}
+
+		//1、new 对象
+		var ajax = new XMLHttpRequest();
+
+		//2、打开连接
+		ajax.open("POST", url, true);
+		//设置请求头的content-type
+		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		//3、发送请求
+		ajax.send(str);
+
+		//4、监听状态改变
+		ajax.onreadystatechange = function(){
+			if(ajax.readyState === 4 && ajax.status === 200){
+				cb(isJson ? JSON.parse(ajax.responseText) : ajax.responseText);
+			}
+		}
+
+
+	},
+
+
+	/*
+	* 封装ajax方法，get、post都能请求
+	* @param  obj object  
+	*           --method  string   get|post
+	*           --url     string   请求的接口地址
+	*           --params  object   请求携带的参数
+	*           --cbSucc  function 请求成功的回调函数
+	*           --cbFail  function 请求失败的回调函数
+	*           --isJson  boolean  是否转换json，默认值为true
+	*/
+	ajax: function(obj){
+		//method, url, params, cbSucc, cbFail, isJson
+		//如果没有传isJson，默认值为true
+		if(obj.isJson === undefined){
+			obj.isJson = true;
+		}
+		//判断是否有参数
+		let str = "";
+		if(obj.params){
+			for(let key in obj.params){
+				str += key+"="+obj.params[key]+"&";
+			}
+			str = str.slice(0,-1);
+		}else{
+			str = null;
+		}
+
+		var ajax = new XMLHttpRequest();
+
+		if(obj.method.toUpperCase() === "GET"){
+			ajax.open("GET", obj.url+"?"+str);
+
+			ajax.send(null);
+
+		}else if(obj.method.toUpperCase() === "POST"){
+			ajax.open("POST", obj.url);
+			//设置请求头的content-type
+			ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			ajax.send(str);
+
+		}else{
+			obj.cbFail();
+			return;
+		}
+
+		ajax.onreadystatechange = function(){
+			if(ajax.readyState === 4){
+				if(ajax.status === 200){
+					obj.cbSucc(obj.isJson ? JSON.parse(ajax.responseText) : ajax.responseText);
+				}else{
+					obj.cbFail();
+				}
+			}
+		}
+
+
 
 	}
 }
