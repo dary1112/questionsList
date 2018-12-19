@@ -5,16 +5,28 @@ $username = $_REQUEST['username'];
 $email = $_REQUEST['email'];
 $password = $_REQUEST['password'];
 
-$sql = "insert into userinfo (username, email, password) values ('$username','$email','$password')";
+//不允许用户名重复
 
-$isSucc = mysql_query($sql);
+$sqlSelect = "select * from userinfo where username='$username'";
 
-if($isSucc){
-	$arr = array('res_code' => 1);
+$res = mysql_query($sqlSelect);
+
+if(mysql_num_rows($res) > 0){
+	$arr = array('res_code' => 0, 'res_message' => "用户名已存在");
 	echo json_encode($arr);
 }else{
-	$arr = array('res_code' => 0);
-	echo json_encode($arr);
+	//用户不存在，允许插入
+	$sql = "insert into userinfo (username, email, password) values ('$username','$email','$password')";
+
+	$isSucc = mysql_query($sql);
+
+	if($isSucc){
+		$arr = array('res_code' => 1, 'res_message' => "注册成功");
+		echo json_encode($arr);
+	}else{
+		$arr = array('res_code' => 0, 'res_message' => "数据库操作失败");
+		echo json_encode($arr);
+	}
 }
 
 

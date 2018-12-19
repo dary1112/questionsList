@@ -3,19 +3,25 @@ window.onload = function(){
 		e = e || window.event;
 
 		//用ajax提交
-		tools.ajaxGet("api/v1/register.php",{
-			"username": tools.$("#inputusername").value,
-			"email": tools.$("#inputEmail3").value,
-			"password": tools.$("#inputPassword3").value
-		}, function(res){
-			if(res.res_code === 1){
-				alert("注册成功");
-
-			}else{
-				alert("注册失败");
+		tools.ajax({
+			method:"post",
+			url:"api/v1/register.php",
+			params: {
+				"username": tools.$("#inputusername").value.trim(),
+				"email": tools.$("#inputEmail3").value.trim(),
+				"password": tools.$("#inputPassword3").value
+			},
+			cbSucc: function(res){
+				if(res.res_code){
+					if(confirm("注册成功，去登录")){
+						window.location.href = "login.html";
+					}
+				}
 			}
 		})
 
+
+		//阻止表单的默认提交
 		e.preventDefault();
 		return false;
 	}
