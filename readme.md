@@ -16,5 +16,3 @@
 * gitµÿ÷∑
 
   `git@github.com:XDLRanger/questionsList.git`
-
-  ?
