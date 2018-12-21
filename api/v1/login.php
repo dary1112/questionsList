@@ -1,4 +1,6 @@
 <?php
+//CORS服务器端允许跨域访问
+header("Access-Control-Allow-Origin:http://localhost");
 include("../db.php");
 
 $username = $_POST['username'];
