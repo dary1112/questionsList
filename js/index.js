@@ -18,6 +18,9 @@ window.onload = function(){
 		
 	})
 
+	//使用添加题目模态框
+	$('#modal').modal({show: false});
+
 
 
 	//请求数据，渲染tbody
@@ -94,12 +97,6 @@ window.onload = function(){
 				}
 			});
 
-
-
-			
-
-
-
 		}else if(target.className === "cancelBtn"){
 			//取消按钮
 			var tr = target.parentNode.parentNode;
@@ -108,7 +105,30 @@ window.onload = function(){
 			//删除按钮
 			if(confirm("你确定要删除吗？")){
 				var tr = target.parentNode.parentNode;
-				tr.parentNode.removeChild(tr);
+				var id = tr.children[0].innerHTML;
+
+				//带着id去请求服务器
+
+				// api/v1/delete.php
+				// get
+				// request params  id
+				// response  json
+				//     res_code  1 | 0
+				//     res_message  
+
+				tools.ajaxPromiseGet("api/v1/delete.php", {id})
+					.then(function(res){
+						if(res.res_code){
+							//删除成功
+							tr.parentNode.removeChild(tr);
+						}else{
+							alert(res.res_message+"，删除失败，请重试");
+						}
+					})
+
+
+
+				//tr.parentNode.removeChild(tr);
 			}
 		}
 			
