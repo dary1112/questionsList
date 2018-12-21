@@ -1,8 +1,9 @@
 #container,#main{width: 1000px;margin: 0 auto;}
 .register,.login{width: 450px;}
 .navbar-default .navbar-link{color: #337ab7;}
+.navbar-default .exit{color:#5cb85c;margin-left: 5px;}
 h1{text-align: center;padding-top: 50px;}
-input[type="text"]{ display:none; height:24px; width:60px; border:1px solid #ccc;}
+tbody input[type="text"]{ display:none; height:24px; width:60px; border:1px solid #ccc;}
 .editBtn{ color:#666}
 .delBtn{ color:red}
 .okBtn,.cancelBtn{ display:none}
