@@ -54,9 +54,9 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">+添加题目</button>
 			<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
+			    <div class="modal-content" id="modal-content">
 			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="closeSpan">&times;</span></button>
 			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 			      </div>
 			      <div class="modal-body">
@@ -71,8 +71,8 @@
 				  </div>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-			        <button type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal" id="closeBtn">关闭</button>
+			        <button type="button" class="btn btn-primary" data-dismiss="modal" id="addBtn">添加</button>
 
 			      </div>
 			    </div>
@@ -102,6 +102,25 @@
 						        </tr> -->
 			</tbody>
 		</table>
+		<nav aria-label="Page navigation">
+		  <ul class="pagination" id="pagination">
+		    <li class="prevPage">
+		      <a href="javascript:;" aria-label="Previous" class="prevPage">
+		        <span class="prevPage" aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    <!-- <li class="active"><a href="javascript:;">1</a></li>
+		    <li><a href="javascript:;">2</a></li>
+		    <li><a href="javascript:;">3</a></li>
+		    <li><a href="javascript:;">4</a></li>
+		    <li><a href="javascript:;">5</a></li> -->
+		    <li id="nextPage" class="nextPage">
+		      <a href="javascript:;" aria-label="Next" class="nextPage">
+		        <span class="nextPage" aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 
 	

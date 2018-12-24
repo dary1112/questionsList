@@ -28,6 +28,33 @@ var tools = {
 			return getComputedStyle(obj,false)[attr];
 		}
 	},
+
+	/* 兼容低版本getElementsByClassName
+	 * @param className  string 查找元素的className
+	 * @param content  DOMObj  父级对象，不传默认是document
+	 * @return array  找到的元素的集合
+	*/
+	getByClass: function(className, content){
+		content = content || document;
+
+		//判断是否可用
+		if(content.getElementsByClassName)
+			return content.getElementsByClassName(className);
+
+		//不可用时
+		var result= [];
+		var element = content.getElementsByTagName("*");
+		for(var i = 0; i < element.length; i++){
+			var classNames = element[i].className.split(" ");
+			for(var j = 0; j < classNames.length; j++){
+				if(classNames[j] === className){
+					result.push(element[j]);
+					break;
+				}
+			}
+		}
+		return result;
+	},
 	
 	/* 获取body宽高
 	 * 
@@ -330,6 +357,81 @@ var tools = {
 
 
 
+	},
+
+	/*ajax jsonp跨域请求
+	* @param url string 请求路径
+	* @param cbName string 全局回调函数的函数名
+	* @param params object 请求携带的参数
+	*/
+	ajaxJsonp: function(url, cbName, params){
+		
+		
+		//拼接callback和参数
+		url += "?callback="+cbName;
+
+		if(params){
+			for(let key in params){
+				url += "&"+key+"="+params[key];
+			}
+		}
+
+		//创建script标签
+
+		var script = document.createElement("script");
+		script.src = url;
+		document.body.appendChild(script);
+
+		//过河拆桥
+		document.body.removeChild(script);
+
+	},
+
+	/*
+	* 封装ajax的get请求方法
+	* @param url string 请求路径
+	* @param params Object 请求携带的参数
+	* @param isJson boolean true代表是json 默认值就是true false就是普通字符串
+	*/
+	ajaxPromiseGet: function(url, params, isJson=true){
+
+		if(typeof params === "boolean"){
+			isJson = params;
+		}else if(typeof params === "object"){
+			url += "?";
+			for(let key in params){
+				url += key + "=" + params[key] + "&";
+			}
+			url = url.slice(0, -1);
+		}else{
+			isJson = true;
+		}
+		
+		return new Promise(function(resolve, reject){
+			//1、new对象
+			var ajax = new XMLHttpRequest();
+
+			ajax.open("GET", url, true);
+
+			ajax.send(null);
+
+			ajax.onreadystatechange = function(){
+				if(ajax.readyState === 4){
+					if(ajax.status === 200){
+						resolve(isJson ? JSON.parse(ajax.responseText) : ajax.responseText);
+					}else{
+						reject();
+					}
+				}
+			}
+
+		});
+
+
 	}
+
+
+
+	
 }
 

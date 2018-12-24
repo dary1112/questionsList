@@ -5,6 +5,11 @@ if(!tools.cookie("user")){
 
 window.onload = function(){
 
+	//每一页的数据量
+	const pageCount = 4;
+	var pageIndex = 1;
+	var allPage;
+
 	//显示登录用户名
 	var username = JSON.parse(tools.cookie("user")).name;
 	tools.$("#username").innerHTML = username;
@@ -22,34 +27,60 @@ window.onload = function(){
 	$('#modal').modal({show: false});
 
 
+	getData();
+	//请求对应的那一页的数据，渲染tbody
+	function getData(){
+		tools.ajax({
+			method:"GET",
+			url:"api/v1/select.php",
+			params:{pageIndex, pageCount},
+			cbSucc: function(res){
+				console.log(res);
+				if(res.res_code){
+					//总页数赋值
+					allPage = res.pages;
+					pageIndex = Number(res.pageIndex);
 
-	//请求数据，渲染tbody
-	tools.ajax({
-		method:"GET",
-		url:"api/v1/index.php",
-		cbSucc: function(res){
-			if(res.res_code){
-				//拼接tr
-				var str = "";
-				var data = res.res_body;
-				data.forEach( function(element, index) {
-					str += `<tr>
-		            <td>${element.id}</td>
-		            <td><span>${element.title}</span><input type="text"></td>
-		            <td><span>${element.answer}</span><input type="text"></td>
-		            <td>
-		            	<a href="javascript:;" class="editBtn">编辑</a>
-		            	<a href="javascript:;" class="okBtn">确定</a>
-		            	<a href="javascript:;" class="cancelBtn">取消</a>
-		            	<a href="javascript:;" class="delBtn">删除</a>
-		            </td>
-		        </tr>`;
-				});
+					//拼接tr
+					var str = "";
+					var data = res.res_body;
+					data.forEach( function(element, index) {
+						str += `<tr>
+			            <td>${element.id}</td>
+			            <td><span>${element.title}</span><input type="text"></td>
+			            <td><span>${element.answer}</span><input type="text"></td>
+			            <td>
+			            	<a href="javascript:;" class="editBtn">编辑</a>
+			            	<a href="javascript:;" class="okBtn">确定</a>
+			            	<a href="javascript:;" class="cancelBtn">取消</a>
+			            	<a href="javascript:;" class="delBtn">删除</a>
+			            </td>
+			        </tr>`;
+					});
+					tools.$("tbody")[0].innerHTML = str;
 
-				tools.$("tbody")[0].innerHTML = str;
+					//分页的li
+					//先把page删除
+					var aPage = tools.$(".page", tools.$("#pagination"));
+					//遍历DOM集合
+					aPage = Array.from(aPage);
+					for(let key in aPage){
+						tools.$("#pagination").removeChild(aPage[key]);
+					}
+
+					for(let j = 1; j <= res.pages; j++){
+						var li = document.createElement("li");
+						li.className = j===pageIndex ? "page active":"page";
+						li.innerHTML = '<a class="pageNum" href="javascript:;">'+j+'</a>';
+						tools.$("#pagination").insertBefore(li, tools.$("#nextPage"));
+					}
+
+					
+				}
 			}
-		}
-	})
+		})
+	}
+	
 
 	//表格编辑
 	var box = tools.$("#box");
@@ -121,6 +152,8 @@ window.onload = function(){
 						if(res.res_code){
 							//删除成功
 							tr.parentNode.removeChild(tr);
+							//重新请求这一页的数据
+							getData();
 						}else{
 							alert(res.res_message+"，删除失败，请重试");
 						}
@@ -133,4 +166,55 @@ window.onload = function(){
 		}
 			
 	}
+
+	//添加操作
+	var inputTitle = tools.$("#inputTitle"),
+		inputAnswer = tools.$("#inputAnswer");
+
+	//事件委派
+	tools.on(tools.$("#modal-content"), "click", function(e){
+		e = e || window.event;
+		var target = e.target || e.srcElement;
+		//判断事件源
+		if(target.id === "closeBtn" || target.id === "closeSpan"){
+			inputTitle.value = inputAnswer.value = "";
+		}else if(target.id === "addBtn"){
+			//添加题目，提交后台
+			tools.ajaxPromiseGet("api/v1/add.php", {
+				title: inputTitle.value,
+				answer: inputAnswer.value
+			}).then(function(res){
+				if(res.res_code){
+					inputTitle.value = inputAnswer.value = "";
+					//重新请求当前页的数据
+					getData();
+					alert(res.res_message);
+				}else{
+					alert(res.res_message);
+				}
+			})
+		}
+		
+	})
+
+	//分页
+	tools.on(tools.$("#pagination"), "click", function(e){
+		e = e || window.event;
+		var target = e.target || e.srcElement;
+
+		if(target.className === "prevPage"){
+			//上一页
+			if(--pageIndex<1) pageIndex = 1;
+			getData();
+		}else if(target.className === "nextPage"){
+			//下一页
+			if(++pageIndex > allPage) pageIndex = allPage;
+			getData();
+		}else if(target.className === "pageNum"){
+			//分页
+			pageIndex = Number(target.innerHTML);
+			getData();
+		}
+
+	})
 }
