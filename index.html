@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>首页</title>
+	<title>错题集 - 首页</title>
 	<link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script type="text/javascript" src="libs/jquery/jquery-3.2.1.js"></script>
@@ -16,40 +16,22 @@
   <div class="container-fluid" id="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="javascript:;">假装有一个LOGO</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li class="active"><a href="javascript:;">首页</a></li>
+        <li><a href="javascript:;">其他页面</a></li>
       </ul>
-      <p class="navbar-text navbar-right">欢迎您，<a href="#" id="username" class="navbar-link">张三</a><a href="" class="navbar-link exit" id="exit">退出</a></p>
+      <p class="navbar-text navbar-right">欢迎您，<a href="javascript:;" id="username" class="navbar-link"></a><a href="javascript:;" class="navbar-link exit" id="exit">退出</a></p>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 	</header>
 	<div id="main">
-		<h1>千锋H5 1809错题管理系统</h1>
+		<h1>错题管理系统</h1>
 		<div>
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">+添加题目</button>
 			<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -57,7 +39,7 @@
 			    <div class="modal-content" id="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="closeSpan">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			        <h4 class="modal-title" id="myModalLabel">新增题目</h4>
 			      </div>
 			      <div class="modal-body">
 			      	
@@ -73,7 +55,6 @@
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal" id="closeBtn">关闭</button>
 			        <button type="button" class="btn btn-primary" data-dismiss="modal" id="addBtn">添加</button>
-
 			      </div>
 			    </div>
 			  </div>
@@ -90,16 +71,16 @@
 			</thead>
 			<tbody>
 				<!-- <tr>
-						            <td>2</td>
-						            <td><span>题目</span><input type="text"></td>
-						            <td><span>答案</span><input type="text"></td>
-						            <td>
-						            	<a href="javascript:;" class="editBtn">编辑</a>
-						            	<a href="javascript:;" class="okBtn">确定</a>
-						            	<a href="javascript:;" class="cancelBtn">取消</a>
-						            	<a href="javascript:;" class="delBtn">删除</a>
-						            </td>
-						        </tr> -->
+          <td>2</td>
+          <td><span>题目</span><input type="text"></td>
+          <td><span>答案</span><input type="text"></td>
+          <td>
+            <a href="javascript:;" class="editBtn">编辑</a>
+            <a href="javascript:;" class="okBtn">确定</a>
+            <a href="javascript:;" class="cancelBtn">取消</a>
+            <a href="javascript:;" class="delBtn">删除</a>
+          </td>
+        </tr> -->
 			</tbody>
 		</table>
 		<nav aria-label="Page navigation">
@@ -122,7 +103,5 @@
 		  </ul>
 		</nav>
 	</div>
-
-	
 </body>
 </html>

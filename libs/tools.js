@@ -25,7 +25,7 @@ var tools = {
 		if(obj.currentStyle){ //针对IE
 			return obj.currentStyle[attr];
 		}else{
-			return getComputedStyle(obj,false)[attr];
+			return getComputedStyle(obj, false)[attr];
 		}
 	},
 
@@ -130,7 +130,7 @@ var tools = {
 	 * */
 	off: function(obj, type, fn){
 		window.detachEvent ?
-			obj.detachEvent("on"+type, fn) :
+			obj.detachEvent("on" + type, fn) :
 			obj.removeEventListener(type, fn, false);
 	},
 	
@@ -169,8 +169,8 @@ var tools = {
 				if(exp.expires){
 					//设置new Date到过期的那一天
 					var d = new Date();
-					d.setDate(d.getDate()+exp.expires);
-					str += ";expires="+d;
+					d.setDate(d.getDate() + exp.expires);
+					str += ";expires=" + d.toUTCString();
 				}
 				//如果传了path
 				if(exp.path){
@@ -243,9 +243,6 @@ var tools = {
 				cb(isJson? JSON.parse(ajax.responseText):ajax.responseText);
 			}
 		}
-
-		
-
 	},
 
 	/*
@@ -295,8 +292,6 @@ var tools = {
 				cb(isJson ? JSON.parse(ajax.responseText) : ajax.responseText);
 			}
 		}
-
-
 	},
 
 
@@ -425,13 +420,6 @@ var tools = {
 				}
 			}
 
-		});
-
-
+		})
 	}
-
-
-
-	
 }
-

@@ -1,41 +1,39 @@
-//页面加载之前，如果没有登录，那么进入登录页面
+// 页面加载之前，如果没有登录，那么进入登录页面
 if(!tools.cookie("user")){
 	window.location.href = "login.html";
 }
 
 window.onload = function(){
 
-	//每一页的数据量
+	// 每一页的数据量
 	const pageCount = 4;
 	var pageIndex = 1;
 	var allPage;
 
-	//显示登录用户名
+	// 显示登录用户名
 	var username = JSON.parse(tools.cookie("user")).name;
 	tools.$("#username").innerHTML = username;
 
-	//退出登录
+	// 退出登录
 	tools.on(tools.$("#exit"), "click", function(){
 		if(confirm("确定要退出登录吗？")){
 			tools.cookie("user","", {expires:-1});
 			window.location.href = "login.html";
 		}
-		
 	})
 
-	//使用添加题目模态框
-	$('#modal').modal({show: false});
+	// 使用添加题目模态框
+	// $('#modal').modal({show: false});
 
 
 	getData();
-	//请求对应的那一页的数据，渲染tbody
+	// 请求对应的那一页的数据，渲染tbody
 	function getData(){
 		tools.ajax({
-			method:"GET",
-			url:"api/v1/select.php",
-			params:{pageIndex, pageCount},
-			cbSucc: function(res){
-				console.log(res);
+			method: "GET",
+			url: "api/v1/select.php",
+			params: { pageIndex, pageCount },
+			cbSucc: function (res) {
 				if(res.res_code){
 					//总页数赋值
 					allPage = res.pages;
@@ -74,19 +72,15 @@ window.onload = function(){
 						li.innerHTML = '<a class="pageNum" href="javascript:;">'+j+'</a>';
 						tools.$("#pagination").insertBefore(li, tools.$("#nextPage"));
 					}
-
-					
 				}
 			}
 		})
-	}
-	
-
+  }
+  
 	//表格编辑
 	var box = tools.$("#box");
 	var	tbody = tools.$("tbody",box)[0];
 		
-	
 	//按钮事件，委托给父级tbody
 	tbody.onclick = function(e){
 		e = e || event;
@@ -108,12 +102,10 @@ window.onload = function(){
 			var tr = target.parentNode.parentNode;
 			tr.className = "";
 			
-			//var aSpan = tools.$("span", tr);
 			var id = tr.children[0].innerHTML,
 				aInput = tools.$("input", tr),
 				title = aInput[0].value,
 				answer = aInput[1].value;
-
 
 			//请求服务器，更新数据库
 			tools.ajax({
@@ -158,13 +150,8 @@ window.onload = function(){
 							alert(res.res_message+"，删除失败，请重试");
 						}
 					})
-
-
-
-				//tr.parentNode.removeChild(tr);
 			}
 		}
-			
 	}
 
 	//添加操作
@@ -215,6 +202,5 @@ window.onload = function(){
 			pageIndex = Number(target.innerHTML);
 			getData();
 		}
-
 	})
 }

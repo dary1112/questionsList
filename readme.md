@@ -1,7 +1,8 @@
-### 错题系统
+# 错题系统
+
+###项目介绍
 
 * 使用技术：bootstrap、php、MySQL
-
 * 功能
   * 登陆注册
     * 避免重复注册
@@ -12,7 +13,13 @@
   * 表格即时编辑，修改删除操作
   * 插入记录
   * 后端分页
-
 * git地址
 
-  `git@github.com:XDLRanger/questionsList.git`
+### 使用说明
+
+1. 开启apache服务器并将代码放在根目录下
+2. 创建数据库`questions`，将项目根目录下的sql文件导入
+3. 浏览器输入 http://localhost 即可访问
+
+
+

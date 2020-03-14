@@ -36,6 +36,4 @@ if($isSucc){
 
 echo json_encode($arr);
 
-
-
 ?>
